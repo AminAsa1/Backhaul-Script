@@ -8,7 +8,7 @@ sleep 1
 DIRECTORY="/etc/cluster"
 
 echo "Enter service name:"
-read serviceName
+#read serviceName
 
 echo "$DIRECTORY"
 echo "$erviceName"
