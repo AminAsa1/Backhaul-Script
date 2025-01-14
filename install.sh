@@ -11,7 +11,7 @@ echo "Enter service name:"
 read serviceName
 
 echo "$DIRECTORY"
-echo "s$erviceName"
+echo "$erviceName"
 
 if [ -d "$DIRECTORY" ]; then
   echo "$DIRECTORY does exist."
