@@ -10,6 +10,9 @@ DIRECTORY="/etc/cluster"
 echo "Enter service name:"
 read serviceName
 
+echo "$DIRECTORY"
+echo "s$erviceName"
+
 if [ -d "$DIRECTORY" ]; then
   echo "$DIRECTORY does exist."
 fi
