@@ -21,3 +21,7 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 wget --inet4-only wget -P "$DIRECTORY" "https://github.com/Musixal/Backhaul/releases/latest/download/backhaul_linux_amd64.tar.gz"
+
+tar -xzf "$DIRECTORY/backhaul_linux_amd64.tar.gz"
+rm "$DIRECTORY/LICENSE $DIRECTORY/README.md $DIRECTORY/backhaul_linux_amd64.tar.gz"
+mv "backhaul $DIRECTORY/$serviceName"
