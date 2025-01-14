@@ -16,3 +16,7 @@ echo "$erviceName"
 if [ -d "$DIRECTORY" ]; then
   echo "$DIRECTORY does exist."
 fi
+
+if [ ! -d "$DIRECTORY" ]; then
+  echo "$DIRECTORY does not exist."
+fi
