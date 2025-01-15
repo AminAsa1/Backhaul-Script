@@ -36,3 +36,7 @@ case $CHS in
     1)  echo "Be carefull SSH port must under 23"
     echo "Enter service name:"
     read serviceName
+    
+    *)   echo "Done."; exit 1 ;;
+
+esac
