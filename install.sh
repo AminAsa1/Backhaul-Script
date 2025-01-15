@@ -8,6 +8,8 @@ sleep 1
 DIRECTORY="/etc/cluster"
 CHS=3
 serviceName="cluster"
+PORT=2052
+#TOPASS=10100
 
 #echo "Enter service name:"
 #echo "your service name is: $erviceName"
@@ -29,7 +31,7 @@ mv $DIRECTORY/backhaul $DIRECTORY/$serviceName
 server_config() {
 cat >$DIRECTORY/$serviceName.toml <<-EOF
 [server]
-bind_addr = "0.0.0.0:2052"
+bind_addr = "0.0.0.0:$PORT"
 transport = "tcpmux"
 token = "X9%Sx,2bB'4t"
 keepalive_period = 75
@@ -47,6 +49,26 @@ ports = [
 ]
 EOF
 }
+service_config() {
+cat >/etc/systemd/system/$serviceName.service <<-EOF
+[Unit]
+Description=Cluster game Service01
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=$DIRECTORY/$serviceName -c $DIRECTORY/$serviceName.toml
+Restart=always
+RestartSec=3
+LimitNOFILE=1048576
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
+systemctl --now enable $serviceName.service
+systemctl start $serviceName.service
+}
 
 echo "Select Server Location:"
 echo "1.Iran"
@@ -58,8 +80,12 @@ case $CHS in
     1)  echo "Be carefull SSH port must under 23"
     echo "Enter service name:"
     read serviceName
+    echo "Enter tunnel port:"
+    read PORT
     backhaul_instller
     server_config
+    service_config
+    
  exit ;;
    *)   echo "Done."; exit 1 ;;
 
