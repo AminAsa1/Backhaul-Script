@@ -49,6 +49,28 @@ ports = [
 ]
 EOF
 }
+client_config() {
+cat >$DIRECTORY/$serviceName.toml <<-EOF
+[client]
+remote_addr = "[2a07:3903:0:2::27d]:$PORT"
+transport = "tcpmux"
+token = "X9%Sx,2bB'4t"
+connection_pool = 8
+aggressive_pool = false
+keepalive_period = 75
+dial_timeout = 10
+nodelay = true
+retry_interval = 3
+mux_version = 1
+mux_framesize = 32768
+mux_recievebuffer = 4194304
+mux_streambuffer = 65536
+sniffer = false
+forwarder = [
+   "10100=127.0.0.1:80"
+   ]
+EOF
+}
 service_config() {
 cat >/etc/systemd/system/$serviceName.service <<-EOF
 [Unit]
@@ -77,13 +99,22 @@ echo "3.Exit"
 read -r -p "Select Number(Default is: 3):" CHS
 
 case $CHS in
-    1)  echo "Be carefull SSH port must under 23"
-    echo "Enter service name:"
+    1)  echo "Enter service name:"
     read serviceName
     echo "Enter tunnel port:"
     read PORT
     backhaul_instller
     server_config
+    service_config
+    
+ exit ;;
+
+    2)  echo "Enter service name:"
+    read serviceName
+    echo "Enter tunnel port:"
+    read PORT
+    backhaul_instller
+    client_config
     service_config
     
  exit ;;
